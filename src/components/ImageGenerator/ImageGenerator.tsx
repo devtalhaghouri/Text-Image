@@ -4,7 +4,6 @@ const ImageGenerator: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [mobile, setMobile] = useState<boolean>(false);
   const generateImage = () => {
     setLoading(true);
     fetch(
@@ -48,7 +47,6 @@ const ImageGenerator: React.FC = () => {
     }
   };
 
-  console.log(mobile);
 
   return (
     <section id="ImageGenertor">
