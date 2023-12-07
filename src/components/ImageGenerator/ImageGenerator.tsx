@@ -4,6 +4,7 @@ const ImageGenerator: React.FC = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const token: string = import.meta.env.VITE_API_TOKEN;
   const generateImage = () => {
     setLoading(true);
     fetch(
@@ -12,7 +13,7 @@ const ImageGenerator: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ inputs: inputText }),
       }
@@ -47,7 +48,6 @@ const ImageGenerator: React.FC = () => {
     }
   };
 
-
   return (
     <section id="ImageGenertor">
       <div className="container max-w-[1200px] m-auto w-[100%]  px-[15px] justify-start items-start h-screen flex flex-col gap-[40px]">
@@ -67,6 +67,9 @@ const ImageGenerator: React.FC = () => {
               placeholder="Enter text for image generation"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={(e) =>
+                e.key === "Enter" && inputText.trim() && generateImage()
+              }
             />
             <button
               className=" bg-blue-500 text-white h-[100%] px-4 py-2 w-[100%] max-w-[180px] rounded hover:bg-blue-600 mr-2 "
@@ -78,10 +81,10 @@ const ImageGenerator: React.FC = () => {
         </div>
 
         <div
-          className={`flex items-center justify-center flex-col w-[100%] gap-[10px]`}
+          className={`flex items-center justify-center flex-col w-[100%] gap-[10px] h-[100%]`}
         >
           {loading ? (
-            <h1 className="text-[30px] text-[black]">Loading....</h1>
+            <h1 className="text-[30px] md:text-[35px] text-[black]">Loading....</h1>
           ) : imageSrc ? (
             <>
               <img
@@ -90,14 +93,14 @@ const ImageGenerator: React.FC = () => {
                 className="w-[100%] max-w-[300px] h-auto rounded"
               />
               <button
-                className=" bg-blue-500 text-white h-[100%] px-4 py-2 w-[100%] max-w-[180px] rounded hover:bg-blue-600 mr-2 "
+                className=" bg-blue-500 text-white  px-4 py-2 w-[100%] max-w-[180px] rounded hover:bg-blue-600 mr-2 h-max "
                 onClick={handleDownload}
               >
                 Download Image
               </button>
             </>
           ) : (
-            <h1>Created A Image</h1>
+            <h1  className="text-[30px] md:text-[35px] text-[black]">Created A Image</h1>
           )}
         </div>
       </div>
